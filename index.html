@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex,notranslate">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<title>ejemploHA.conversion</title>
+<style>[hidden]{display:none!important}body{margin:0}</style>
+</head>
+<body>
+<style>
+:root{
+  --ink:#0E2233; --ink2:#3C5366; --mute:#6B8193;
+  --bg:#F3F6F8; --card:#FFFFFF; --line:#D5E0E8; --soft:#E9EEF2;
+  --lead:#1F7FB8; --lead-s:#DCEEF8;
+  --acc:#6A5ACD; --acc-s:#E6E2FA;
+  --con:#128C7E; --con-s:#D5F0EB;
+  --opp:#E0891F; --opp-s:#FCEBD3;
+  --lost:#C9463F; --lost-s:#F8DEDC;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Figtree",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){color-scheme:dark;
+    --ink:#E8F0F6; --ink2:#B4C4D1; --mute:#8499AA; --bg:#0B1620; --card:#12212E; --line:#243848; --soft:#1A2B39;
+    --lead:#5BB3E8; --lead-s:#15344A; --acc:#A597F2; --acc-s:#27224A; --con:#3CC2B0; --con-s:#0F3531;
+    --opp:#F4B25F; --opp-s:#3A2A14; --lost:#EE7B75; --lost-s:#3C1C1B;}
+}
+:root[data-theme="dark"]{color-scheme:dark;
+  --ink:#E8F0F6; --ink2:#B4C4D1; --mute:#8499AA; --bg:#0B1620; --card:#12212E; --line:#243848; --soft:#1A2B39;
+  --lead:#5BB3E8; --lead-s:#15344A; --acc:#A597F2; --acc-s:#27224A; --con:#3CC2B0; --con-s:#0F3531;
+  --opp:#F4B25F; --opp-s:#3A2A14; --lost:#EE7B75; --lost-s:#3C1C1B;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;padding:0 18px}
+.wrap{max-width:1180px;margin:0 auto;padding-block:36px 72px;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+h1{font-size:clamp(30px,5vw,54px);font-weight:800;line-height:1.03}
+h2{font-size:clamp(24px,3vw,32px);font-weight:800}
+p{margin:0}
+.eyebrow{font:700 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--lead)}
+.lede{color:var(--ink2);font-size:17px;max-width:66ch}
+.code{font-family:var(--mono);font-size:.85em}
+.head{display:flex;flex-direction:column;gap:10px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px}
+.legend button{font:600 13px var(--body);display:flex;gap:7px;align-items:center;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.legend button i{width:11px;height:11px;border-radius:3px;background:var(--c)}
+.legend button[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--c);border-color:var(--c)}
+
+/* diagram */
+.diagram{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 150px minmax(0,1fr);gap:0;align-items:start}
+#wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+#wires path{fill:none;stroke-width:2;opacity:.55;transition:opacity .2s,stroke-width .2s}
+#wires path.on{opacity:1;stroke-width:3}
+#wires path.off{opacity:.07}
+.obj{background:var(--card);border:1.5px solid var(--line);border-radius:16px;overflow:hidden;position:relative;z-index:1}
+.obj .oh{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 16px;background:var(--cs);border-bottom:1.5px solid var(--line)}
+.obj .oh h3{font-size:19px;color:var(--c)}
+.obj .oh span{font:700 11px var(--mono);color:var(--c);letter-spacing:.08em;text-transform:uppercase}
+.obj .sub{padding:8px 16px 4px;font:700 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.f{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 16px;border-top:1px solid var(--soft);cursor:default;transition:background .15s,opacity .2s}
+.f:first-of-type{border-top:0}
+.f .n{font-weight:600;font-size:14px}
+.f .api{font:500 11.5px var(--mono);color:var(--mute);word-break:break-all}
+.f .d{display:flex;gap:4px;flex:none}
+.f .d b{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.f.hl{background:var(--soft)}
+.f.dim{opacity:.28}
+.f .x{font:700 10px var(--mono);color:var(--lost);letter-spacing:.06em}
+.dest{display:flex;flex-direction:column;gap:18px}
+.later{opacity:.8}
+.later .n::after{content:" · lo carga el BDR";font-weight:500;color:var(--mute);font-size:12px}
+.hub{align-self:stretch;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+.hub .core{background:var(--ink);color:var(--bg);border-radius:14px;padding:14px 10px;text-align:center;width:124px;font:700 13px var(--body);box-shadow:0 0 0 6px var(--bg)}
+.hub .core small{display:block;font:500 11px var(--mono);opacity:.75;margin-top:4px}
+.note{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:14px 16px;color:var(--ink2);font-size:14px}
+.note b{color:var(--ink)}
+
+/* phases */
+.phases{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.phase{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.phase .tag{align-self:flex-start;font:700 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--cs);color:var(--c)}
+.phase ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--ink2)}
+
+/* activities */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tabs button{font:600 14px var(--body);padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink2);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.act{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.actcard{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.link{display:grid;grid-template-columns:90px 1fr;gap:10px;align-items:center}
+.link .k{font:700 12px var(--mono);color:var(--mute)}
+.pillo{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:14px;padding:6px 12px;border-radius:10px;background:var(--cs);color:var(--c);border:1.5px solid var(--c)}
+.pillo.none{background:transparent;border-style:dashed;color:var(--mute);border-color:var(--line)}
+.actflow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.actflow .arr{color:var(--mute);font-weight:700}
+.fields{display:flex;flex-direction:column;gap:6px}
+.fields div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:10px;font-size:14px;border-top:1px solid var(--soft);padding-top:6px}
+.fields div span:first-child{font-family:var(--mono);font-size:12px;color:var(--ink2);word-break:break-all}
+.warn{background:var(--lost-s);color:var(--ink);border-radius:12px;padding:12px 14px;font-size:14px}
+.warn b{color:var(--lost)}
+
+/* example */
+.ex-steps{display:flex;gap:6px;flex-wrap:wrap}
+.ex-steps button{font:600 13px var(--body);display:flex;gap:8px;align-items:center;padding:7px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink2);cursor:pointer}
+.ex-steps button b{font:700 11px var(--mono);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--ink2)}
+.ex-steps button[aria-selected="true"]{border-color:var(--ink);color:var(--ink)}
+.ex-steps button[aria-selected="true"] b,.ex-steps button.done b{background:var(--ink);color:var(--bg)}
+.ex-body{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px;align-items:start}
+.ex-story{background:var(--ink);color:var(--bg);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.ex-story .when{font:700 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+.ex-story h3{font-size:22px}
+.ex-story .quote{border-left:3px solid var(--opp);padding-left:12px;opacity:.9;font-size:14.5px}
+.ex-recs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.rec{background:var(--card);border:1.5px solid var(--line);border-top:4px solid var(--c);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.rec.ghost{opacity:.45;border-style:dashed}
+.rec h4{margin:0;font:700 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--c)}
+.kv{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:8px;font-size:13px;border-top:1px solid var(--soft);padding-top:5px}
+.kv span:first-child{font-family:var(--mono);font-size:11.5px;color:var(--mute);word-break:break-all}
+.kv.new{background:var(--cs);margin:0 -6px;padding:5px 6px;border-radius:6px;border-top-color:transparent}
+.kv.new span:last-child{font-weight:700}
+.nav-row{display:flex;justify-content:space-between;gap:10px}
+.btn{font:600 14px var(--body);background:var(--card);border:1px solid var(--line);color:var(--ink);padding:9px 16px;border-radius:10px;cursor:pointer}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.primary{background:var(--lead);border-color:var(--lead);color:#fff}
+button:focus-visible,.f:focus-visible{outline:3px solid var(--opp);outline-offset:2px}
+
+.dtxt{display:none;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.dtxt em{font:700 10.5px var(--mono);font-style:normal;letter-spacing:.04em;padding:2px 7px;border-radius:999px;background:var(--cs);color:var(--c);white-space:nowrap}
+.m-only{display:none}
+@media (max-width:1100px) and (min-width:901px){
+  .diagram{grid-template-columns:minmax(0,1fr) 116px minmax(0,1fr)}
+  .hub .core{width:96px;font-size:12px}
+}
+@media (max-width:900px){
+  body{font-size:15px}
+  .wrap{gap:44px;padding-block:24px 56px}
+  .d-only{display:none}.m-only{display:inline}
+  .ex-body{grid-template-columns:1fr}
+  .diagram{grid-template-columns:1fr;gap:12px}
+  #wires{display:none}
+  .f .d{display:none}
+  .dtxt{display:flex}
+  .f{padding:9px 14px;align-items:flex-start}
+  .hub{align-self:center}
+  .hub .core{width:auto;display:flex;gap:8px;align-items:center;padding:8px 16px;border-radius:999px;box-shadow:none}
+  .hub .core::before{content:"↓";font-size:16px}
+  .hub .core small{margin:0}
+  .phases,.act{grid-template-columns:1fr}
+  .legend,.tabs,.ex-steps{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;margin-inline:-18px;padding-inline:18px;padding-bottom:4px;scrollbar-width:none}
+  .legend::-webkit-scrollbar,.tabs::-webkit-scrollbar,.ex-steps::-webkit-scrollbar{display:none}
+  .legend button,.tabs button,.ex-steps button{flex:none;scroll-snap-align:start;min-height:40px}
+  .phase,.actcard,.ex-story{padding:16px}
+  .nav-row{position:sticky;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);z-index:3;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(6px);padding:8px;margin-inline:-8px;border-radius:14px}
+  .nav-row .btn{flex:1;min-height:44px}
+}
+@media (max-width:480px){
+  .fields div,.link{grid-template-columns:1fr;gap:2px}
+  .ex-recs{grid-template-columns:1fr}
+  .obj .oh{flex-wrap:wrap}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header class="head">
+  <div class="eyebrow">Cómo se arma el dato en Salesforce</div>
+  <h1>Un Lead que se convierte en Cuenta, Contacto y Oportunidad</h1>
+  <p class="lede"><span class="d-only">A la izquierda, todo lo que cargamos en el Lead durante el relevamiento.</span><span class="m-only">Primero, todo lo que cargamos en el Lead durante el relevamiento.</span> Cuando se convierte, Salesforce reparte esos campos en tres registros nuevos. <span class="d-only">Pasá el mouse o tocá un campo para ver a dónde va.</span><span class="m-only">Cada campo indica a qué registro va; tocalo para resaltar su destino.</span> Lo marcado en rojo no viaja: queda solo en el Lead convertido.</p>
+</header>
+
+<section class="head" style="gap:18px">
+  <div class="legend" id="legend">
+    <button type="button" data-t="all" aria-pressed="true" style="--c:var(--ink)"><i></i>Todo</button>
+    <button type="button" data-t="acc" aria-pressed="false" style="--c:var(--acc)"><i></i>Va a la Cuenta</button>
+    <button type="button" data-t="con" aria-pressed="false" style="--c:var(--con)"><i></i>Va al Contacto</button>
+    <button type="button" data-t="opp" aria-pressed="false" style="--c:var(--opp)"><i></i>Va a la Oportunidad</button>
+    <button type="button" data-t="none" aria-pressed="false" style="--c:var(--lost)"><i></i>No se traslada</button>
+  </div>
+
+  <div class="diagram" id="diagram">
+    <svg id="wires" aria-hidden="true"></svg>
+    <div class="obj" id="lead" style="--c:var(--lead);--cs:var(--lead-s)">
+      <div class="oh"><h3>Lead</h3><span>SDR · relevamiento</span></div>
+    </div>
+    <div class="hub"><div class="core">Conversión<small>Calificado → BDR</small></div></div>
+    <div class="dest">
+      <div class="obj" id="acc" style="--c:var(--acc);--cs:var(--acc-s)"><div class="oh"><h3>Cuenta</h3><span>la empresa</span></div></div>
+      <div class="obj" id="con" style="--c:var(--con);--cs:var(--con-s)"><div class="oh"><h3>Contacto</h3><span>la persona</span></div></div>
+      <div class="obj" id="opp" style="--c:var(--opp);--cs:var(--opp-s)"><div class="oh"><h3>Oportunidad</h3><span>el abono</span></div></div>
+    </div>
+  </div>
+
+  <div class="note"><b>Dos campos que hoy se pierden al convertir:</b> <span class="code">Es_Referente__c</span> y <span class="code">BDR_Asignado__c</span> existen en el Contacto pero no están en el mapeo de conversión del org, así que el Contacto nace sin esos datos. El BDR sí llega a la Oportunidad. Si se quiere conservar en el Contacto, hay que agregarlos en la configuración de conversión de Leads.</div>
+</section>
+
+<section class="head" style="gap:18px">
+  <div class="eyebrow">Cuándo pasa cada cosa</div>
+  <h2>Dos fases del mismo cliente</h2>
+  <div class="phases">
+    <div class="phase" style="--c:var(--lead);--cs:var(--lead-s)">
+      <span class="tag">Fase 1 · todo es Lead</span>
+      <h3>Relevamiento (SDR)</h3>
+      <ol>
+        <li>Llega un referido o un formulario: se crea el Lead con ciudad, SDR, empresa y teléfono. Estado <b>Nuevo</b>.</li>
+        <li>Primera charla real: Task con resumen y resultado. Estado <b>Contactado</b>.</li>
+        <li>Se entiende cuánto viaja y quién decide. Estado <b>Calificando</b> o <b>Nurturing</b>.</li>
+        <li>Tiene volumen y decisor: estado <b>Calificado</b>, se asigna el BDR y se arma la card en Trello.</li>
+      </ol>
+      <p style="color:var(--mute);font-size:13px">Durante el relevamiento no se convierte nada. Así lo decidió el equipo el 11/09/2026.</p>
+    </div>
+    <div class="phase" style="--c:var(--opp);--cs:var(--opp-s)">
+      <span class="tag">Fase 2 · Cuenta + Contacto + Oportunidad</span>
+      <h3>Venta del abono (BDR)</h3>
+      <ol>
+        <li>El BDR convierte el Lead calificado: nacen la Cuenta, el Contacto y la Oportunidad en etapa <b>Contactado</b>.</li>
+        <li>Arma la propuesta con formato, tramos y precio por tramo: <b>Propuesta enviada</b>.</li>
+        <li>Ajusta duración y condiciones: <b>Negociación/Revisión</b> → <b>Aprobación</b> → <b>Aprobado</b>.</li>
+        <li>Se firma el contrato de abono mensual: <b>Ganada</b> y estado contractual <b>Vigente</b>. Si no, <b>Perdida</b> con motivo, o <b>En pausa</b>.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="head" style="gap:18px">
+  <div class="eyebrow">Tareas y eventos</div>
+  <h2>A qué se cuelga cada actividad</h2>
+  <p class="lede">Toda llamada, WhatsApp o reunión es una Task (algo hecho o por hacer) o un Evento (algo con día y hora en el calendario). Lo que cambia según el momento es a qué registro se engancha: <span class="code">WhoId</span> es la persona y <span class="code">WhatId</span> es la cosa.</p>
+  <div class="tabs" role="tablist" id="atabs"></div>
+  <div class="act" id="apanel"></div>
+</section>
+
+<section class="head" style="gap:18px">
+  <div class="eyebrow">Ejemplo ilustrativo</div>
+  <h2>Un caso de punta a punta: Arrocera del Iberá</h2>
+  <p class="lede">Empresa, persona, fechas y montos inventados para mostrar el recorrido. Los nombres de campos, etapas y del equipo son los reales. Avanzá paso a paso y mirá cómo se llena cada registro.</p>
+  <div class="ex-steps" id="exSteps" role="tablist"></div>
+  <div class="ex-body">
+    <div class="ex-story" id="exStory"></div>
+    <div class="ex-recs" id="exRecs"></div>
+  </div>
+  <div class="nav-row">
+    <button class="btn" type="button" id="exPrev">← Anterior</button>
+    <button class="btn primary" type="button" id="exNext">Siguiente →</button>
+  </div>
+</section>
+</div>
+
+<script>
+const T={acc:'var(--acc)',con:'var(--con)',opp:'var(--opp)',none:'var(--lost)'};
+const NM={acc:'Cuenta',con:'Contacto',opp:'Oportunidad',none:'No viaja'};
+const LEAD=[
+ ['Nombre y apellido','FirstName / LastName',['con'],{con:'Nombre y apellido'},'Identifica a la persona.'],
+ ['Empresa','Company',['acc','opp'],{acc:'Nombre de la cuenta',opp:'Nombre de la oportunidad'},'Obligatorio. Si no tiene, "Particular".'],
+ ['Teléfono','Phone',['acc','con'],{acc:'Teléfono',con:'Teléfono'},'Único en todo el org (trigger).'],
+ ['Móvil','MobilePhone',['con'],{con:'Móvil'}],
+ ['Email','Email',['con'],{con:'Email'}],
+ ['Cargo','Title',['con'],{con:'Cargo'}],
+ ['Origen del lead','LeadSource',['con','opp'],{con:'Origen',opp:'Origen'}],
+ ['Ciudad (código de ruta)','Ciudad__c',['acc','opp'],{acc:'ciudad__c',opp:'Ciudad_Principal__c'},'Obligatorio: NCJ, RAF, VME, MDX…'],
+ ['Domicilio / localidad real','Domicilio__c',['acc'],{acc:'Domicilio__c'}],
+ ['CUIT / CUIL','CUIT_CUIL__c',['acc'],{acc:'CUIT_CUIL__c'},'11 caracteres, sin guiones.'],
+ ['Segmento de ciudad','segmento_ciudad__c',['acc'],{acc:'segmento_ciudad__c'}],
+ ['SDR','SDR__c',['opp'],{opp:'SDR_de_origen__c'},'Quién lo relevó. Atribución comercial.'],
+ ['BDR asignado','BDR_Asignado__c',['opp','x-con'],{opp:'BDR_Asignado__c'},'Quién lo toma para vender.'],
+ ['Contexto comercial','Contexto_Comercial__c',['opp'],{opp:'Contexto_Comercial__c'},'Todo lo hablado.'],
+ ['Primer toque','Primer_toque__c',['opp'],{opp:'Primer_toque__c'}],
+ ['Prioridad','Priority__c',['opp'],{opp:'Priority__c'}],
+ ['Es referente','Es_Referente__c',['none','x-con'],{},'Abre puertas: cámaras, municipios.'],
+ ['Toques / intentos','Toques_intentos__c',['none'],{}],
+ ['Estado del lead','Status',['none'],{},'Nuevo → Contactado → Calificando → Calificado.'],
+ ['Motivo no califica','Motivo_No_Califica__c',['none'],{}],
+ ['Respuestas del formulario','Respuestas_Formulario__c',['none'],{}],
+ ['Sales Rep','Sales_Rep__c',['none'],{}],
+ ['Zona','Zona__c',['none'],{},'Fórmula: agrupa ciudades.'],
+];
+const LATER={
+ acc:[['es_ancla__c','¿Es cliente ancla de la ruta?'],['Correo_electronico__c','Mail de la empresa']],
+ con:[['Comentarios_Adicionales__c','Notas de la persona'],['Es_Referente__c','Existe, pero no se completa al convertir'],['BDR_Asignado__c','Existe, pero no se completa al convertir']],
+ opp:[['StageName','Contactado → … → Ganada / Perdida / En pausa'],['Interes_Principal__c','Paquete Corporativo, Charter…'],['Formato_de_Venta__c','Paquete mensual, Paquete Flex, Charter, Agencias'],['Tramos_mensuales__c','Cuántos tramos por mes'],['Precio_por_Tramo_USD__c','Venta o Preventa (Tipo_de_precio__c)'],['Monto_mensual_del_acuerdo__c','Fórmula: tramos × precio'],['Duracion_del_contrato_meses__c','Meses del abono'],['Fecha_inicio_servicio__c','Arranca a volar'],['Estado_Contractual__c','Potencial → Vigente → Finalizado'],['Motivo_de_p_rdida__c','Obligatorio si se pierde'],['Oportunidad_anterior__c','Enlace de la renovación']]
+};
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const leadEl=document.getElementById('lead');
+leadEl.insertAdjacentHTML('beforeend','<div class="sub">Campos del Lead</div>'+LEAD.map((r,i)=>{
+  const dests=r[2].filter(d=>!d.startsWith('x-'));
+  return `<div class="f" tabindex="0" data-i="${i}" data-t="${dests.join(' ')}"><div><div class="n">${esc(r[0])}</div><div class="api">${r[1]}</div></div><div class="d">${dests.includes('none')?'<span class="x">NO VIAJA</span>':dests.map(d=>`<b style="--c:${T[d]}"></b>`).join('')}</div><div class="dtxt">${dests.map(d=>`<em style="--c:${T[d]};--cs:var(--${d==='none'?'lost':d}-s)">${NM[d]}</em>`).join('')}</div></div>`}).join(''));
+for(const o of ['acc','con','opp']){
+  const el=document.getElementById(o);
+  const inc=LEAD.map((r,i)=>[r,i]).filter(([r])=>r[2].includes(o));
+  let h='<div class="sub">Llega del Lead</div>'+inc.map(([r,i])=>`<div class="f" data-in="${i}" data-t="${o}"><div><div class="n">${esc(r[3][o])}</div><div class="api">desde ${r[1]}</div></div></div>`).join('');
+  h+='<div class="sub">Se carga después</div>'+LATER[o].map(([a,d])=>`<div class="f later" data-t="${o}"><div><div class="n">${esc(d)}</div><div class="api">${a}</div></div></div>`).join('');
+  el.insertAdjacentHTML('beforeend',h);
+}
+const svg=document.getElementById('wires'), dia=document.getElementById('diagram');
+function draw(){
+  svg.innerHTML='';
+  if(getComputedStyle(svg).display==='none')return;
+  const b=dia.getBoundingClientRect();
+  document.querySelectorAll('.dest .f[data-in]').forEach(t=>{
+    const i=t.dataset.in, s=leadEl.querySelector(`.f[data-i="${i}"]`);
+    const a=s.getBoundingClientRect(), c=t.getBoundingClientRect();
+    const x1=a.right-b.left, y1=a.top+a.height/2-b.top, x2=c.left-b.left, y2=c.top+c.height/2-b.top, m=(x1+x2)/2;
+    const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d',`M${x1},${y1} C${m},${y1} ${m},${y2} ${x2},${y2}`);
+    p.setAttribute('stroke',getComputedStyle(document.documentElement).getPropertyValue('--'+t.dataset.t).trim());
+    p.dataset.i=i; p.dataset.t=t.dataset.t; svg.appendChild(p);
+  });
+  apply();
+}
+let filt='all', focus=null;
+function apply(){
+  const on=el=>{
+    const t=el.dataset.t||'', i=el.dataset.i??el.dataset.in;
+    if(focus!==null) return i===focus;
+    return filt==='all'||t.split(' ').includes(filt);
+  };
+  document.querySelectorAll('.f').forEach(f=>{const o=on(f);f.classList.toggle('dim',!o);f.classList.toggle('hl',focus!==null&&o)});
+  svg.querySelectorAll('path').forEach(p=>{const o=focus!==null?p.dataset.i===focus:(filt==='all'||filt===p.dataset.t);p.classList.toggle('on',o&&(focus!==null||filt!=='all'));p.classList.toggle('off',!o)});
+}
+leadEl.querySelectorAll('.f').forEach(f=>{
+  const set=()=>{focus=f.dataset.i;apply()}, clr=()=>{focus=null;apply()};
+  f.addEventListener('mouseenter',set);f.addEventListener('mouseleave',clr);
+  f.addEventListener('focus',set);f.addEventListener('blur',clr);
+  f.addEventListener('click',()=>{focus=focus===f.dataset.i?null:f.dataset.i;apply()});
+});
+document.getElementById('legend').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;filt=b.dataset.t;focus=null;
+  document.querySelectorAll('#legend button').forEach(x=>x.setAttribute('aria-pressed',x===b));apply();});
+new ResizeObserver(draw).observe(dia);
+document.fonts&&document.fonts.ready.then(draw);
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
+draw();
+
+const ACT=[
+ {k:'lead',t:'Fase Lead',who:['Lead','lead'],what:null,
+  flow:['Llamada o WhatsApp','Task en el Lead'],
+  txt:'Mientras es Lead, la actividad se engancha solo a la persona. Salesforce no deja poner un WhatId cuando el WhoId es un Lead.',
+  f:[['Subject','"Llamada", "WhatsApp", "Reunión"…'],['Status','Completed si ya pasó · Not Started si es un seguimiento'],['Resumen_de_Llamada__c','Resumen corto'],['Description','Detalle completo'],['Resultado_de_Contacto__c','Califica, No respondió, Pidió recontacto…'],['Fecha_y_hora_programada__c','Para seguimientos con hora']],
+  warn:'Un seguimiento futuro siempre es una Task nueva, sin resultado cargado hasta que se hace.'},
+ {k:'conv',t:'Al convertir',who:['Contacto','con'],what:['Cuenta','acc'],
+  flow:['Tasks y eventos del Lead','se mudan solos','Contacto + Cuenta'],
+  txt:'La conversión mueve todo el historial: cada Task y Evento del Lead pasa a apuntar al Contacto nuevo (WhoId) y a la Cuenta (WhatId). No se pierde nada.',
+  f:[['WhoId','Lead → Contacto'],['WhatId','vacío → Cuenta']],
+  warn:'Si un Lead viejo ya está convertido, las actividades nuevas van al Contacto y a la Cuenta que generó, nunca al Lead.'},
+ {k:'opp',t:'Fase Oportunidad',who:['Contacto','con'],what:['Oportunidad','opp'],
+  flow:['Reunión del BDR','Evento','Contacto + Oportunidad'],
+  txt:'Durante la venta, cada llamada o reunión se cuelga de la persona con la que se habló y de la Oportunidad que se está trabajando. Así la Oportunidad junta toda su historia.',
+  f:[['Evento','Reunión o llamada con fecha y hora de inicio y fin'],['Task','Envío de propuesta, seguimiento, llamada'],['OwnerId','El BDR que la hizo (ej. TD)'],['Resultado_de_Contacto__c','Propuesta solicitada, Información enviada…']],
+  warn:'El dueño de la actividad es quien la hizo; la atribución comercial sigue siendo SDR/BDR.'},
+ {k:'trello',t:'Tareas desde Trello',who:null,what:null,
+  flow:['Card en tablero de la plaza','sync','Task del BDR'],
+  txt:'En Villa Mercedes y Mercedes, cada card de Trello crea su Task en Salesforce con Trello_Card_Id__c. Mover la card cambia el estado: Solicitado → En curso → Hecho.',
+  f:[['Trello_Card_Id__c','Id de la card'],['Status','Not Started → In Progress → Completed'],['OwnerId','SH (VME) · TD (MDX)']],
+  warn:'Estas Tasks van sin WhoId ni WhatId a propósito: si tuvieran, el trigger las espejaría al tablero Comercial y movería la card.'}
+];
+const at=document.getElementById('atabs'), ap=document.getElementById('apanel');
+at.innerHTML=ACT.map((a,i)=>`<button role="tab" type="button" aria-selected="${i===0}" data-i="${i}">${a.t}</button>`).join('');
+const pill=(v,lbl)=>v?`<span class="pillo" style="--c:var(--${v[1]});--cs:var(--${v[1]}-s)">${v[0]}</span>`:`<span class="pillo none">vacío</span>`;
+function showA(i){
+  const a=ACT[i];
+  at.querySelectorAll('button').forEach(b=>b.setAttribute('aria-selected',b.dataset.i==i));
+  ap.innerHTML=`<div class="actcard">
+     <div class="actflow">${a.flow.map(s=>`<span class="pillo" style="--c:var(--ink2);--cs:var(--soft)">${s}</span>`).join('<span class="arr">→</span>')}</div>
+     <p>${a.txt}</p>
+     <div class="link"><span class="k">WhoId</span><div>${pill(a.who)}</div></div>
+     <div class="link"><span class="k">WhatId</span><div>${pill(a.what)}</div></div>
+     <div class="warn"><b>Ojo:</b> ${a.warn}</div>
+   </div>
+   <div class="actcard"><h3>Qué se completa</h3><div class="fields">${a.f.map(([k,v])=>`<div><span>${k}</span><span>${v}</span></div>`).join('')}</div></div>`;
+}
+at.addEventListener('click',e=>{const b=e.target.closest('button');if(b)showA(+b.dataset.i)});
+showA(0);
+
+const EX=[
+ {t:'Referido',when:'Lunes 6/10 · SDR',h:'Nos pasan un nombre',
+  s:'Un productor de Mercedes nos pasa el contacto de Laura Gómez, gerenta de la arrocera, que viaja seguido a Buenos Aires. Todavía no hablamos con ella.',
+  q:'Se crea el Lead con Status Nuevo y la nota de quién la refirió. No hace falta Task todavía.',
+  r:{lead:[['FirstName / LastName','Laura Gómez',1],['Company','Arrocera del Iberá S.A.',1],['Phone','+54 9 3773 00-0000',1],['Ciudad__c','MDX',1],['SDR__c','IB',1],['Status','Nuevo',1],['Contexto_Comercial__c','Referida por un productor local. Pendiente de llamar.',1]]}},
+ {t:'Primera llamada',when:'Martes 7/10 · SDR',h:'Primera charla real',
+  s:'IB la llama. La empresa manda 3 o 4 personas por semana a Buenos Aires, hoy en auto o micro.',
+  q:'Task en el Lead: WhoId = Lead, sin WhatId. Status del Lead pasa a Contactado.',
+  r:{lead:[['Status','Contactado',1],['Toques_intentos__c','1',1],['Primer_toque__c','07/10',1]],
+     task:[['Subject','Llamada',1],['WhoId','Lead · Laura Gómez',1],['WhatId','vacío',1],['Resumen_de_Llamada__c','Viajan 3-4 por semana a BUE',1],['Resultado_de_Contacto__c','Califica',1],['Status','Completed',1]]}},
+ {t:'Calificado y traspaso',when:'Jueves 9/10 · SDR → BDR',h:'Pasa al BDR',
+  s:'Laura confirma que decide ella con el directorio. IB la marca Calificado y se la pasa a TD, el BDR de Mercedes.',
+  q:'Se setea BDR_Asignado__c, se crea la card "Contactar a Laura Gómez" en el tablero Mercedes y el sync genera la Task de TD.',
+  r:{lead:[['Status','Calificado',1],['BDR_Asignado__c','TD',1]],
+     task:[['Subject','Contactar a Laura Gómez',1],['OwnerId','TD',1],['Trello_Card_Id__c','id de la card',1],['Status','Not Started',1],['WhoId / WhatId','vacíos (sync Trello)',1]]}},
+ {t:'Conversión',when:'Martes 14/10 · BDR',h:'Se convierte el Lead',
+  s:'TD habla con Laura y convierte el Lead. Nacen tres registros y el historial se muda solo.',
+  q:'La Task del 7/10 ahora apunta al Contacto (WhoId) y a la Cuenta (WhatId).',
+  r:{acc:[['Name','Arrocera del Iberá S.A.',1],['ciudad__c','MDX',1],['Phone','+54 9 3773 00-0000',1]],
+     con:[['Name','Laura Gómez',1],['Phone','+54 9 3773 00-0000',1],['BDR_Asignado__c','vacío (no se mapea)',1]],
+     opp:[['Name','Arrocera del Iberá S.A.-',1],['StageName','Contactado',1],['Ciudad_Principal__c','MDX',1],['SDR_de_origen__c','IB',1],['BDR_Asignado__c','TD',1],['Contexto_Comercial__c','(heredado del Lead)',1]]}},
+ {t:'Propuesta',when:'Viernes 17/10 · BDR',h:'Reunión y propuesta',
+  s:'TD hace una reunión por videollamada y después manda la propuesta de un paquete mensual.',
+  q:'Evento con WhoId = Contacto y WhatId = Oportunidad. La Oportunidad pasa a Propuesta enviada.',
+  r:{ev:[['Tipo','Evento · 17/10 10:00-10:45',1],['WhoId','Contacto · Laura Gómez',1],['WhatId','Oportunidad',1],['Resultado_de_Contacto__c','Propuesta solicitada',1]],
+     opp:[['StageName','Propuesta Enviada',1],['Interes_Principal__c','Paquete Corporativo',1],['Formato_de_Venta__c','Paquete mensual',1],['Tramos_mensuales__c','8',1],['Precio_por_Tramo_USD__c','250 (ejemplo)',1],['Monto_mensual_del_acuerdo__c','USD 2.000 (fórmula)',1]]}},
+ {t:'Negociación',when:'Octubre · BDR',h:'Se ajustan las condiciones',
+  s:'Piden arrancar con 12 meses y cambiar la fecha de inicio. El directorio lo aprueba.',
+  q:'Negociación/Revisión → Aprobación → Aprobado. Las condiciones quedan escritas en la Oportunidad.',
+  r:{opp:[['StageName','Aprobado',1],['Duracion_del_contrato_meses__c','12',1],['Nota_Comercial_Condiciones__c','Inicio 1/11, 12 meses',1]]}},
+ {t:'Contrato firmado',when:'Viernes 31/10 · BDR',h:'Abono mensual firmado',
+  s:'Laura firma el contrato de abono. La arrocera empieza a volar en noviembre.',
+  q:'Ganada, Estado Contractual Vigente y cronograma generado.',
+  r:{opp:[['StageName','Ganada',1],['Estado_Contractual__c','Vigente',1],['Fecha_inicio_servicio__c','01/11',1],['Tramos_totales__c','96',1],['Monto_total_por_acuerdo__c','USD 24.000 (ejemplo)',1],['Cronograma_Generado__c','true',1]]}}
+];
+const REC={lead:['Lead','lead'],task:['Task','lead'],acc:['Cuenta','acc'],con:['Contacto','con'],opp:['Oportunidad','opp'],ev:['Evento','opp']};
+let ex=0;
+const exS=document.getElementById('exSteps');
+exS.innerHTML=EX.map((e,i)=>`<button type="button" role="tab" data-i="${i}"><b>${i+1}</b>${e.t}</button>`).join('');
+function showEx(i){
+  ex=i; const e=EX[i];
+  exS.querySelectorAll('button').forEach((b,j)=>{b.setAttribute('aria-selected',j===i);b.classList.toggle('done',j<i)});
+  document.getElementById('exStory').innerHTML=`<span class="when">${e.when}</span><h3>${e.h}</h3><p>${e.s}</p><p class="quote">${e.q}</p>`;
+  const state={};
+  for(let j=0;j<=i;j++) for(const [k,rows] of Object.entries(EX[j].r)){
+    if(k==='task'||k==='ev'){ if(j===i) state[k]=rows.map(r=>[r[0],r[1],1]); continue; }
+    state[k]=state[k]||new Map();
+    rows.forEach(([a,v])=>state[k].set(a,[v,j===i]));
+  }
+  const order=i<3?['lead','task']:['acc','con','opp','ev','task'];
+  const conv=i>=3;
+  let h='';
+  for(const k of order){
+    if(!state[k])continue;
+    const [nm,c]=REC[k];
+    const rows=state[k] instanceof Map?[...state[k]].map(([a,[v,n]])=>[a,v,n]):state[k];
+    h+=`<div class="rec" style="--c:var(--${c});--cs:var(--${c}-s)"><h4>${nm}${k==='task'&&!conv?'':''}</h4>${rows.map(([a,v,n])=>`<div class="kv${n?' new':''}"><span>${a}</span><span>${v}</span></div>`).join('')}</div>`;
+  }
+  if(conv) h+=`<div class="rec ghost" style="--c:var(--lead)"><h4>Lead original</h4><div class="kv"><span>IsConverted</span><span>true · ya no se edita</span></div></div>`;
+  document.getElementById('exRecs').innerHTML=h;
+  document.getElementById('exPrev').disabled=i===0;
+  document.getElementById('exNext').disabled=i===EX.length-1;
+}
+const goEx=i=>{showEx(i);
+  const b=exS.querySelectorAll('button')[i];b.scrollIntoView({block:'nearest',inline:'center'});
+  if(matchMedia('(max-width:900px)').matches){const s=document.getElementById('exStory'),top=s.getBoundingClientRect().top;if(top<0||top>innerHeight*.5)exS.scrollIntoView({block:'start'})}};
+exS.addEventListener('click',e=>{const b=e.target.closest('button');if(b)goEx(+b.dataset.i)});
+document.getElementById('exPrev').onclick=()=>goEx(ex-1);
+document.getElementById('exNext').onclick=()=>goEx(ex+1);
+showEx(0);
+</script>
+
+</body>
+</html>
