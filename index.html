@@ -130,6 +130,84 @@ p{margin:0}
 .btn.primary{background:var(--lead);border-color:var(--lead);color:#fff}
 button:focus-visible,.f:focus-visible{outline:3px solid var(--opp);outline-offset:2px}
 
+/* layers */
+.layers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.layer{background:var(--card);border:1.5px solid var(--line);border-top:5px solid var(--c);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.lk{font:700 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--c,var(--mute))}
+.layer .where{font-size:13px;color:var(--mute)}
+.layer p:last-child{color:var(--ink2);font-size:14.5px}
+
+/* guide */
+.guide{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px;align-items:start}
+.gnav{display:flex;flex-direction:column;gap:4px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+.gnav button{display:flex;gap:10px;align-items:center;text-align:left;font:600 14px var(--body);padding:10px 12px;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--ink2);cursor:pointer}
+.gnav button b{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:700 11px var(--mono);background:var(--soft);color:var(--ink2)}
+.gnav button[aria-selected="true"]{background:var(--card);border-color:var(--line);color:var(--ink)}
+.gnav button[aria-selected="true"] b{background:var(--gc);color:#fff}
+.gpanel{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.gpanel h3{font-size:24px}
+.gpanel .max{background:var(--soft);border-left:4px solid var(--gc);border-radius:0 10px 10px 0;padding:10px 14px;font-weight:600}
+.gpanel ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--ink2)}
+.gpanel .sf{display:flex;flex-wrap:wrap;gap:6px}
+.gpanel .sf span{font:500 12px var(--mono);padding:3px 9px;border-radius:999px;background:var(--soft);color:var(--ink2)}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cmp div{border-radius:10px;padding:10px 12px;font-size:14px}
+.cmp .no{background:var(--lost-s)}.cmp .si{background:var(--con-s)}
+.cmp b{display:block;font:700 11px var(--mono);letter-spacing:.1em;margin-bottom:4px}
+.cmp .no b{color:var(--lost)}.cmp .si b{color:var(--con)}
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:6px 16px}
+.checks label{display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--ink2);cursor:pointer}
+.checks input{margin-top:3px;accent-color:var(--gc)}
+.checks label:has(input:checked){color:var(--ink);text-decoration:line-through;text-decoration-color:var(--mute)}
+.gprog{height:6px;background:var(--soft);border-radius:999px;overflow:hidden}
+.gprog i{display:block;height:100%;width:0;background:var(--gc);transition:width .3s}
+
+/* builders */
+.builder{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:16px}
+.bhead{display:flex;flex-direction:column;gap:6px}
+.bhead p{color:var(--ink2);font-size:14.5px;max-width:70ch}
+.bgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.bform{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+.fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.fld.wide,.chk.wide{grid-column:1/-1}
+.fld label{font-weight:600;font-size:13px;color:var(--ink2)}
+.fld input,.fld select,.fld textarea{font:inherit;font-size:14px;padding:8px 10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%;min-width:0}
+.fld textarea{resize:vertical}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:2px solid var(--lead);outline-offset:1px}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--ink2);cursor:pointer}
+.task{background:var(--bg);border:1.5px solid var(--line);border-left:5px solid var(--opp);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+.tt{display:flex;justify-content:space-between;align-items:center;font:700 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--opp)}
+.tt em{font-style:normal;background:var(--opp-s);padding:2px 8px;border-radius:999px}
+.tkv{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:8px;font-size:13.5px;border-top:1px solid var(--line);padding-top:5px}
+.tkv span,.prep span{font:500 11.5px var(--mono);color:var(--mute);word-break:break-all}
+.prep{border-top:1px solid var(--line);padding-top:6px;display:flex;flex-direction:column;gap:4px}
+.prep pre{margin:0;white-space:pre-wrap;word-break:break-word;font:13px/1.5 var(--body);color:var(--ink);background:var(--card);border-radius:8px;padding:10px 12px}
+.tfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
+.cal{font-size:12.5px;color:var(--mute)}
+.warn2{background:var(--lost-s);border-radius:10px;padding:10px 12px;font-size:13.5px;margin:0}
+.fit{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.fitc{display:flex;gap:10px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;background:var(--bg)}
+.fitc input{margin-top:4px;accent-color:var(--con)}
+.fitc b{display:block;font-size:14.5px}
+.fitc span{font-size:13px;color:var(--ink2)}
+.fitc:has(input:checked){border-color:var(--con);background:var(--con-s)}
+.verdict{border-radius:12px;padding:14px 16px;font-weight:600;display:flex;gap:10px;align-items:center}
+.verdict.go{background:var(--con-s);color:var(--ink)}.verdict.wait{background:var(--opp-s)}.verdict.no{background:var(--lost-s)}
+.dict{display:flex;flex-direction:column;gap:12px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+.bubble{background:var(--ink);color:var(--bg);border-radius:16px 16px 16px 4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.bubble .lk{color:var(--opp)}
+.bubble p{font-size:14.5px;white-space:pre-wrap}
+.steps2{display:flex;flex-direction:column;gap:8px}
+.st2{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.st2 b{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:700 12px var(--mono);background:var(--c);color:#fff}
+.st2 div{font-size:13.5px;color:var(--ink2);min-width:0;word-break:break-word}
+.st2 div strong{color:var(--ink);display:block;font-size:14px}
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.case{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.case .flow{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font:700 12px var(--mono)}
+.case .flow span{padding:3px 8px;border-radius:6px;background:var(--soft)}
+.case p{font-size:14px;color:var(--ink2)}
+
 .dtxt{display:none;gap:4px;flex-wrap:wrap;justify-content:flex-end}
 .dtxt em{font:700 10.5px var(--mono);font-style:normal;letter-spacing:.04em;padding:2px 7px;border-radius:999px;background:var(--cs);color:var(--c);white-space:nowrap}
 .m-only{display:none}
@@ -159,7 +237,20 @@ button:focus-visible,.f:focus-visible{outline:3px solid var(--opp);outline-offse
   .nav-row{position:sticky;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);z-index:3;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(6px);padding:8px;margin-inline:-8px;border-radius:14px}
   .nav-row .btn{flex:1;min-height:44px}
 }
+@media (max-width:900px){
+  .layers{grid-template-columns:1fr}
+  .guide{grid-template-columns:1fr}
+  .gnav{position:static;flex-direction:row;overflow-x:auto;margin-inline:-18px;padding-inline:18px;scrollbar-width:none}
+  .gnav::-webkit-scrollbar{display:none}
+  .gnav button{flex:none;min-height:44px}
+  .gpanel,.builder{padding:16px}
+  .bgrid{grid-template-columns:1fr}
+  .task,.dict{position:static}
+}
 @media (max-width:480px){
+  .bform{grid-template-columns:1fr}
+  .cmp{grid-template-columns:1fr}
+  .tkv{grid-template-columns:1fr;gap:1px}
   .fields div,.link{grid-template-columns:1fr;gap:2px}
   .ex-recs{grid-template-columns:1fr}
   .obj .oh{flex-wrap:wrap}
@@ -233,6 +324,97 @@ button:focus-visible,.f:focus-visible{outline:3px solid var(--opp);outline-offse
   <p class="lede">Toda llamada, WhatsApp o reunión es una Task (algo hecho o por hacer) o un Evento (algo con día y hora en el calendario). Lo que cambia según el momento es a qué registro se engancha: <span class="code">WhoId</span> es la persona y <span class="code">WhatId</span> es la cosa.</p>
   <div class="tabs" role="tablist" id="atabs"></div>
   <div class="act" id="apanel"></div>
+</section>
+
+<section class="head" style="gap:18px">
+  <div class="eyebrow">Tres capas de información</div>
+  <h2>Cada dato tiene su lugar</h2>
+  <p class="lede">El error más común es mezclar lo que sabemos, lo que hay que hacer y lo que ya pasó. Cada cosa va en un campo distinto.</p>
+  <div class="layers">
+    <div class="layer" style="--c:var(--lead);--cs:var(--lead-s)"><span class="lk">Lo que sabemos</span><h3>Contexto Comercial</h3><p class="where">Vive en el Lead o la Oportunidad · <span class="code">Contexto_Comercial__c</span></p><p>Información general y vigente: origen, actividad, relación con la ruta, necesidad, potencial, decisores, antecedentes. Se edita cuando cambia.</p></div>
+    <div class="layer" style="--c:var(--opp);--cs:var(--opp-s)"><span class="lk">Lo que hay que hacer</span><h3>Preparación / Contexto</h3><p class="where">Vive en la Task abierta · <span class="code">Preparaci_n_Contexto__c</span></p><p>Solo para el próximo toque: qué preguntar, qué quedó pendiente, qué se prometió y cuál es el objetivo.</p></div>
+    <div class="layer" style="--c:var(--con);--cs:var(--con-s)"><span class="lk">Lo que pasó</span><h3>Resultado + Resumen</h3><p class="where">Vive en la Task cerrada · <span class="code">Resultado_de_Contacto__c</span> + <span class="code">Resumen_de_Llamada__c</span></p><p>Histórico: qué respondió, qué cambió y qué decisión produjo esa interacción.</p></div>
+  </div>
+</section>
+
+<section class="head" style="gap:18px" id="sdr">
+  <div class="eyebrow">Instructivo SDR</div>
+  <h2>El SDR no entrega contactos: entrega oportunidades accionables</h2>
+  <p class="lede">Investiga, abre la conversación, registra cada toque y le deja al BDR todo listo para seguir sin repetir nada. Después del cierre documenta, da el alta y acompaña.</p>
+  <div class="guide" id="guideSdr"></div>
+
+  <div class="builder" id="tb">
+    <div class="bhead"><span class="lk">Armador</span><h3>La Task de handoff para el BDR</h3><p>Completá los datos y copiá la Task. El texto queda en <span class="code">Preparaci_n_Contexto__c</span>, que es lo que el BDR lee antes de llamar.</p></div>
+    <div class="bgrid">
+      <form class="bform" id="tbForm" autocomplete="off">
+        <div class="fld"><label for="tbNombre">Persona</label><input id="tbNombre" value="Laura Gómez"></div>
+        <div class="fld"><label for="tbCargo">Cargo</label><input id="tbCargo" value="Gerenta general"></div>
+        <div class="fld"><label for="tbEmpresa">Empresa</label><input id="tbEmpresa" value="Arrocera del Iberá S.A."></div>
+        <div class="fld"><label for="tbCiudad">Ciudad / ruta</label><select id="tbCiudad"><option>MDX</option><option>OYA</option><option>VME</option><option>NCJ</option><option>RAF</option><option>RCQ</option><option>PEH</option><option>TLQ</option><option>NEC</option></select></div>
+        <div class="fld wide"><label for="tbOrigen">Origen / quién lo pasó</label><input id="tbOrigen" value="Referida por un productor local"></div>
+        <div class="fld wide"><label for="tbNecesidad">Necesidad o patrón de viaje</label><textarea id="tbNecesidad" rows="2">Mandan 3-4 personas por semana a Buenos Aires, hoy en auto o micro.</textarea></div>
+        <div class="fld wide"><label for="tbPrevias">Interacciones y respuesta</label><textarea id="tbPrevias" rows="2">1 llamada (07/10). Muy receptiva; decide ella con el directorio.</textarea></div>
+        <div class="fld"><label for="tbInteres">Posible producto</label><select id="tbInteres"><option>Paquete Corporativo</option><option>Charter / Semiprivado</option><option>Alta Agencia</option><option>Acuerdo Mayorista</option><option>Carga / Caudales</option><option>Todavía no surgió</option></select></div>
+        <div class="fld"><label for="tbPrio">Prioridad</label><select id="tbPrio"><option value="1">1 · máxima</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
+        <div class="fld"><label for="tbBdr">Asignado a (BDR)</label><select id="tbBdr"><option>TD</option><option>SH</option><option>GC</option><option>VS</option></select></div>
+        <div class="fld"><label for="tbFecha">Fecha y hora</label><input id="tbFecha" type="datetime-local" value="2026-10-14T11:00"></div>
+        <div class="fld wide"><label for="tbPaso">Próximo paso acordado / particularidades</label><input id="tbPaso" value="Espera el llamado del BDR el martes; prefiere después de las 11."></div>
+        <label class="chk wide" for="tbAcel"><input type="checkbox" id="tbAcel"> Derivación acelerada: todavía no hubo primer contacto del SDR</label>
+      </form>
+      <div class="task" aria-live="polite">
+        <div class="tt"><span>Task</span><em id="tbState">Not Started</em></div>
+        <div class="tkv"><span>Subject</span><b id="tbSubj"></b></div>
+        <div class="tkv"><span>WhoId</span><b id="tbWho"></b></div>
+        <div class="tkv"><span>Asignado a</span><b id="tbOwner"></b></div>
+        <div class="tkv"><span>Prioridad__c</span><b id="tbPrioV"></b></div>
+        <div class="tkv"><span>Fecha_y_hora_programada__c</span><b id="tbFechaV"></b></div>
+        <div class="prep"><span>Preparaci_n_Contexto__c</span><pre id="tbPrep"></pre></div>
+        <div class="tfoot"><span class="cal">Genera un bloque de 30 min en Google Calendar</span><button type="button" class="btn primary" id="tbCopy">Copiar texto</button></div>
+        <p class="warn2" id="tbWarn" hidden></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="head" style="gap:18px" id="bdr">
+  <div class="eyebrow">Instructivo BDR</div>
+  <h2>El BDR no vende vuelos: desarrolla relaciones que generan recurrencia</h2>
+  <p class="lede">Recibe el contexto, entiende la necesidad antes de hablar de producto, califica, negocia y cierra. Después de cada llamada le dicta al SDR qué pasó y qué sigue, y el SDR lo deja cargado.</p>
+  <div class="guide" id="guideBdr"></div>
+
+  <div class="builder">
+    <div class="bhead"><span class="lk">Calificación</span><h3>¿Hay fit para abrir la Oportunidad?</h3><p>Marcá lo que confirmaste en la conversación. La conversión es manual y solo se hace con evidencia concreta.</p></div>
+    <div class="fit" id="fit"></div>
+    <div class="verdict" id="fitV" aria-live="polite"></div>
+  </div>
+
+  <div class="builder">
+    <div class="bhead"><span class="lk">Armador</span><h3>El dictado del BDR al SDR después de cada llamada</h3><p>El BDR dicta; el SDR cierra la Task hecha y crea la siguiente. Si el SDR no puede preparar el próximo paso leyendo Salesforce, falta información.</p></div>
+    <div class="bgrid">
+      <form class="bform" id="dcForm" autocomplete="off">
+        <div class="fld"><label for="dcQuien">Con quién hablaste</label><input id="dcQuien" value="Laura Gómez · Arrocera del Iberá"></div>
+        <div class="fld"><label for="dcRes">Resultado</label><select id="dcRes"><option>Califica</option><option>Propuesta solicitada</option><option>Información enviada</option><option>Requiere seguimiento</option><option>Pidió recontacto</option><option>No respondió</option><option>No califica</option><option>Contacto incorrecto</option></select></div>
+        <div class="fld wide"><label for="dcResumen">Resumen (lo que pasó)</label><textarea id="dcResumen" rows="3">Confirma 4-6 tramos mensuales a BUE. Valida con Administración. Pide propuesta de paquete mensual; la revisan el jueves.</textarea></div>
+        <div class="fld wide"><label for="dcCtx">¿Cambió algo del Contexto Comercial?</label><input id="dcCtx" value="Decide con el directorio; administración la lleva el contador externo."></div>
+        <div class="fld"><label for="dcHace">Próxima acción la hace</label><select id="dcHace"><option value="SDR">SDR (prepara/envía)</option><option value="BDR">BDR (conversa)</option></select></div>
+        <div class="fld"><label for="dcFecha">Fecha y hora</label><input id="dcFecha" type="datetime-local" value="2026-10-16T10:00"></div>
+        <div class="fld wide"><label for="dcQue">Qué hay que hacer / preparar</label><input id="dcQue" value="Armar y enviar propuesta Paquete mensual 6 tramos, precio vigente, inicio 1/11."></div>
+        <div class="fld"><label for="dcEtapa">Etapa de la Oportunidad</label><select id="dcEtapa"><option>Contactado</option><option>Propuesta Enviada</option><option>Negociación/Revisión</option><option>Aprobación</option><option>Aprobado</option><option>En Pausa</option><option>Ganada</option><option>Perdida</option></select></div>
+      </form>
+      <div class="dict" aria-live="polite">
+        <div class="bubble"><span class="lk">Lo que dicta el BDR</span><p id="dcText"></p></div>
+        <div class="steps2" id="dcSteps"></div>
+        <p class="warn2" id="dcWarn" hidden></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="head" style="gap:18px">
+  <div class="eyebrow">Delegar sin perder el ownership</div>
+  <h2>Quién es dueño y quién ejecuta</h2>
+  <p class="lede">El SDR y el BDR del registro son los dueños comerciales. "Asignado a" en la Task es quien hace la próxima acción. Delegar una llamada o un envío no transfiere la Oportunidad.</p>
+  <div class="cases" id="cases"></div>
 </section>
 
 <section class="head" style="gap:18px">
@@ -374,6 +556,155 @@ function showA(i){
 }
 at.addEventListener('click',e=>{const b=e.target.closest('button');if(b)showA(+b.dataset.i)});
 showA(0);
+
+const store={get(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const SDR_STEPS=[
+ {t:'Investigar',max:'No investigar "empresas de la ciudad": investigar motivos de viaje.',
+  items:['Qué hace la organización, dónde opera y qué relación tiene con Buenos Aires o con los destinos de la red.','Qué perfiles podrían viajar, con qué recurrencia, y quién es el interlocutor adecuado.','Fuentes: Google Maps, web, LinkedIn, IA (validar siempre datos críticos), scraping y referidos.','Scraping en orden: definir universo → scrapear → limpiar → enriquecer → priorizar → Salesforce. Nunca cargar una base cruda.','Cámaras e instituciones: pedir datos concretos, detectar cámaras vecinas y registrar quién hace cada introducción. Los referidos valen más que la investigación fría.'],
+  checks:['Revisé Salesforce','Entiendo qué hace la empresa','Tengo una hipótesis de necesidad','Identifiqué al contacto adecuado','Sé por qué podemos ser relevantes']},
+ {t:'Crear el Lead',max:'Un prospecto = un registro vigente. Buscar antes de crear.',
+  items:['Buscar por empresa, persona, teléfono y email. Si existe, seguir sobre ese registro (el trigger de teléfono único rechaza duplicados).','Datos base: nombre, empresa (o "Particular"), teléfono/email, ciudad, segmento, estado, SDR, prioridad 1-5 y origen.','Contexto Comercial: origen, actividad, necesidad, potencial y antecedentes. Es atemporal; no es un historial de llamadas.','Referido sin contactar: estado Nuevo y nota de quién lo pasó.'],
+  sf:['FirstName / LastName','Company','Phone','Ciudad__c','SDR__c','Priority__c','LeadSource','Contexto_Comercial__c','Es_Referente__c']},
+ {t:'Primer contacto',max:'El objetivo no es vender: es conseguir una conversación.',
+  items:['Cercano y semi-formal. Siempre con el nombre de la persona y de la empresa.','Dar contexto: quién lo refirió o qué actor del sector nos acerca.','No mandar propuesta ni explicar todos los productos. Transmitir que queremos entender cómo ayudar con sus traslados a Buenos Aires.','2 a 4 mensajes cortos, o un audio de 30-40 segundos.','Canal según el lead: teléfono, WhatsApp, email, LinkedIn o introducción institucional.']},
+ {t:'Cerrar cada toque',max:'Toda interacción relevante termina en Salesforce: botón Cerrar Llamada → Registrar resultado.',
+  items:['Elegir Resultado y escribir un Resumen que cualquiera entienda sin preguntar.','Completar la Task hecha. Nunca dejarla abierta porque la conversación sigue.','Si hay recontacto: una única Task futura con fecha y hora y su Preparación / Contexto.','Actualizar el estado del Lead: Nuevo → Contactado → Calificando → Calificado o No califica (con motivo).','Actualizar Contexto Comercial solo si cambió información general.'],
+  cmp:['"Hablamos. Interesados. Volver a llamar."','"Confirma 4-6 tramos mensuales. Valida con Administración. Pide propuesta mensual. Revisan el jueves; recontactar viernes 11:00."'],
+  checks:['Registré el resultado','Actualicé la información obtenida','Definí el próximo paso','Definí responsable y fecha']},
+ {t:'Handoff al BDR',max:'El BDR nunca debería tener que volver a investigar algo que el SDR ya descubrió.',
+  items:['Estado Calificado y BDR_Asignado__c según la plaza.','Crear la Task "Llamar a …" asignada al BDR, con todo el contexto en Preparación / Contexto (usá el armador de abajo).','Card en el tablero Trello de la plaza con el brief; el sync la vincula a la Task.','Derivación acelerada: si el lead es de muy alto potencial (referido fuerte, institución, inbound claro), la primera Task puede ir directo al BDR aunque el SDR no haya hablado. Nunca se saltea la trazabilidad.'],
+  sf:['Status = Calificado','BDR_Asignado__c','Task.OwnerId = BDR','Preparaci_n_Contexto__c','Fecha_y_hora_programada__c','Prioridad__c'],
+  checks:['Existe contexto suficiente','El historial está registrado','La necesidad potencial está clara','Está claro qué debe hacer el BDR']},
+ {t:'Soporte en la Oportunidad',max:'El BDR define el contenido comercial; el SDR lo materializa y documenta.',
+  items:['Comunicaciones: mails, WhatsApps, follow-ups, recap de reuniones.','Propuestas y presentaciones adaptadas a cliente, ruta y etapa, con precios y condiciones vigentes.','Cada pedido del BDR llega como Task asignada al SDR, con su Preparación / Contexto. La Oportunidad sigue siendo del BDR.','No modificar condiciones acordadas sin validación del responsable comercial.'],
+  checks:['Material actualizado','Precio y condiciones validados','Documentación consistente','Salesforce actualizado']},
+ {t:'Después del cierre',max:'El cierre termina con el acuerdo enviado, la factura y la cuenta abierta.',
+  items:['Contrato → firma → Salesforce → alta → instructivo → onboarding.','Cargar el bloque contractual: formato, estado Vigente, inicio, fin, tramos, precio por tramo, montos y condiciones.','Mientras no haya Account Manager dedicado, el SDR toma la cuenta: onboarding, seguimiento de utilización, Pulse mensual y renovación.','Si en otra área (Operaciones, Finanzas, Atención) está el tema: identificar → contextualizar → derivar → verificar resolución.'],
+  sf:['StageName = Ganada','Estado_Contractual__c = Vigente','Fecha_inicio_servicio__c','Fecha_fin_contractual__c','Tramos_mensuales__c','Precio_por_Tramo_USD__c'],
+  checks:['Contrato final disponible','Condiciones registradas','Alta derivada','Accesos e instructivos enviados','Cliente operativo']}
+];
+const BDR_STEPS=[
+ {t:'Recibir la oportunidad',max:'El handoff no reinicia el proceso: se sigue desde un punto más avanzado.',
+  items:['Leer la Task que armó el SDR: empresa, persona, cargo, ruta, origen, hipótesis, interacciones y próximo paso.','Leer Contexto Comercial y el historial de Tasks cerradas del Lead.','Si falta algo para conversar, pedírselo al SDR por Task, no por WhatsApp.'],
+  checks:['Revisé Salesforce','Entiendo empresa, contexto y origen','Tengo una hipótesis de necesidad','Sé qué quiero aprender en esta conversación']},
+ {t:'Primera conversación',max:'Entender antes de ofrecer. Conversar, no interrogar.',
+  items:['Movilidad: quién viaja, para qué, entre qué ciudades y con qué frecuencia.','Proceso: quién organiza, quién decide, cómo compran hoy y qué alternativas usan.','Problema: tiempo, productividad, flexibilidad, logística, previsibilidad, experiencia.','Necesidad → patrón de uso → producto. Nunca al revés.']},
+ {t:'Calificar y convertir',max:'No se convierte porque respondió, porque es grande o porque parece interesante.',
+  items:['Evaluar los seis criterios de fit (usá la calificación de abajo).','Antes de convertir: empresa identificada, contacto principal, ciudad, Contexto Comercial actualizado, prioridad, necesidad validada, próximo paso y BDR.','Al convertir se crean o vinculan Cuenta + Contacto + Oportunidad. Si la Cuenta ya existe, no duplicarla.','Si no hay fit: No califica con motivo. No dejarlo artificialmente activo.'],
+  sf:['Convertir Lead','Oportunidad: StageName = Contactado','Interes_Principal__c','SDR_de_origen__c','BDR_Asignado__c']},
+ {t:'Dictar al SDR',max:'Resultado → próximo paso → fecha → responsable.',
+  items:['Después de cada llamada, el BDR dicta: con quién habló, resultado, resumen concreto, qué cambió del contexto y qué sigue.','El SDR cierra la Task con Resultado + Resumen y crea la siguiente: asignada al SDR si hay que preparar o enviar algo, al BDR si hay que volver a conversar.','Si el SDR no puede preparar el siguiente paso leyendo Salesforce, falta información.'],
+  cmp:['"Le mandamos propuesta."','"Propuesta enviada. La revisa con RR.HH. el jueves. Llamar viernes 11:00."'],
+  checks:['Entendí necesidad y patrón de viaje','Dicté Resultado + Resumen','Se actualizó la oportunidad si cambió el contexto','Existe próximo paso con fecha y responsable','El SDR sabe qué debe preparar']},
+ {t:'Propuesta',max:'Presentar valor antes que tarifa.',
+  items:['El BDR define producto, volumen, lógica, precio aplicable y narrativa. El SDR arma el documento.','Conectar la propuesta con el patrón de movilidad y la fricción concreta que resolvemos.','Precios y condiciones siempre de las fuentes oficiales vigentes.','La etapa pasa a Propuesta Enviada solo cuando la propuesta se envió de verdad.'],
+  sf:['Formato_de_Venta__c','Tramos_mensuales__c','Precio_por_Tramo_USD__c','Tipo_de_precio__c','Monto_mensual_del_acuerdo__c'],
+  checks:['El producto responde a la necesidad','Precio y condiciones vigentes','Propuesta adaptada al cliente','Sé quién participa en la decisión']},
+ {t:'Negociar y cerrar',max:'Toda concesión debe resolver una barrera concreta.',
+  items:['Entender la barrera antes de conceder; defender el valor antes de bajar precio.','Condiciones excepcionales se validan internamente antes de prometerlas.','Cerrada = aceptación + producto, volumen, precio, vigencia, inicio, condiciones e interlocutor administrativo definidos.','Perdida solo con conclusión real. "No responde esta semana" es En Pausa con criterio de reactivación.'],
+  sf:['Nota_Comercial_Condiciones__c','Duracion_del_contrato_meses__c','Motivo_de_p_rdida__c'],
+  checks:['Producto, volumen, precio, vigencia e inicio definidos','Condiciones especiales validadas','Decisor e interlocutor administrativo identificados']},
+ {t:'Después de ganar',max:'El momento para hablar con un cliente no es solo cuando hay que renovar.',
+  items:['Entregar al SDR/AM: interlocutores, producto, volumen, precio, vigencia, inicio, condiciones, compromisos y próximos pasos.','Renovaciones estratégicas o complejas vuelven al BDR con todo el contexto; después la cuenta vuelve al AM.','Referidos: el BDR consigue la puerta; el SDR construye la nueva oportunidad.'],
+  checks:['Información completa entregada al SDR','Documentación y alta iniciadas','Salesforce refleja el cierre','Próximo contacto como cuenta definido']}
+];
+function guide(elId,steps,color,key){
+  const el=document.getElementById(elId);
+  el.style.setProperty('--gc',color);
+  const done=store.get(key)||{};
+  el.innerHTML=`<div class="gnav" role="tablist">${steps.map((s,i)=>`<button type="button" role="tab" data-i="${i}"><b>${i+1}</b>${s.t}</button>`).join('')}</div><div class="gpanel" role="tabpanel"></div>`;
+  const panel=el.querySelector('.gpanel');
+  function show(i){
+    const s=steps[i];
+    el.querySelectorAll('.gnav button').forEach((b,j)=>b.setAttribute('aria-selected',j===i));
+    const ck=s.checks||[];
+    panel.innerHTML=`<span class="lk" style="--c:${color}">Paso ${i+1} de ${steps.length}</span><h3>${s.t}</h3><p class="max">${s.max}</p><ul>${s.items.map(x=>`<li>${x}</li>`).join('')}</ul>`+
+      (s.cmp?`<div class="cmp"><div class="no"><b>NO SIRVE</b>${s.cmp[0]}</div><div class="si"><b>SÍ SIRVE</b>${s.cmp[1]}</div></div>`:'')+
+      (s.sf?`<div><span class="lk">En Salesforce</span><div class="sf" style="margin-top:6px">${s.sf.map(f=>`<span>${f}</span>`).join('')}</div></div>`:'')+
+      (ck.length?`<div><span class="lk">Checklist</span><div class="gprog" style="margin:8px 0"><i></i></div><div class="checks">${ck.map((c,j)=>`<label><input type="checkbox" id="${key}-${i}-${j}" ${done[i+'-'+j]?'checked':''}> ${c}</label>`).join('')}</div></div>`:'');
+    const prog=()=>{const bx=panel.querySelectorAll('.checks input');if(!bx.length)return;panel.querySelector('.gprog i').style.width=([...bx].filter(b=>b.checked).length/bx.length*100)+'%'};
+    panel.querySelectorAll('.checks input').forEach((b,j)=>b.addEventListener('change',()=>{done[i+'-'+j]=b.checked;store.set(key,done);prog()}));
+    prog();
+  }
+  el.querySelector('.gnav').addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(+b.dataset.i)});
+  show(0);
+}
+guide('guideSdr',SDR_STEPS,'var(--lead)','ha-sdr');
+guide('guideBdr',BDR_STEPS,'var(--con)','ha-bdr');
+
+const $v=id=>document.getElementById(id).value.trim();
+const fmtDT=v=>{if(!v)return '—';const d=new Date(v);return isNaN(d)?v:d.toLocaleDateString('es-AR',{weekday:'short',day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})};
+function buildTask(){
+  const acel=document.getElementById('tbAcel').checked;
+  document.getElementById('tbSubj').textContent=`Llamar a ${$v('tbNombre')||'…'} (${$v('tbEmpresa')||'…'})`;
+  document.getElementById('tbWho').textContent=`Lead · ${$v('tbNombre')||'…'}`;
+  document.getElementById('tbOwner').textContent=`${$v('tbBdr')} (BDR)`;
+  document.getElementById('tbPrioV').textContent=$v('tbPrio');
+  document.getElementById('tbFechaV').textContent=fmtDT($v('tbFecha'));
+  const prep=[
+    `OBJETIVO: ${acel?'Primera conversación y validación de fit (derivación acelerada, sin contacto previo del SDR).':'Continuar la conversación y validar necesidad para abrir la Oportunidad.'}`,
+    `QUIÉN: ${$v('tbNombre')} · ${$v('tbCargo')} · ${$v('tbEmpresa')} · ${$v('tbCiudad')}`,
+    `ORIGEN: ${$v('tbOrigen')}`,
+    `NECESIDAD / PATRÓN DE VIAJE: ${$v('tbNecesidad')}`,
+    `INTERACCIONES: ${acel?'Ninguna todavía. Motivo de la derivación directa: '+($v('tbPrevias')||'—'):$v('tbPrevias')}`,
+    `POSIBLE PRODUCTO: ${$v('tbInteres')}`,
+    `PRÓXIMO PASO / PARTICULARIDADES: ${$v('tbPaso')}`
+  ].join('\n');
+  document.getElementById('tbPrep').textContent=prep;
+  const miss=[['tbNombre','persona'],['tbEmpresa','empresa'],['tbOrigen','origen'],['tbNecesidad','necesidad'],['tbFecha','fecha y hora']].filter(([id])=>!$v(id)).map(x=>x[1]);
+  const w=document.getElementById('tbWarn');w.hidden=!miss.length;w.textContent=miss.length?'Falta para un handoff completo: '+miss.join(', ')+'.':'';
+}
+document.getElementById('tbForm').addEventListener('input',buildTask);
+document.getElementById('tbForm').addEventListener('submit',e=>e.preventDefault());
+document.getElementById('tbCopy').addEventListener('click',()=>{
+  const txt=['Subject: '+document.getElementById('tbSubj').textContent,'Asignado a: '+document.getElementById('tbOwner').textContent,'Prioridad: '+$v('tbPrio'),'Fecha y hora: '+document.getElementById('tbFechaV').textContent,'','Preparación / Contexto:',document.getElementById('tbPrep').textContent].join('\n');
+  const b=document.getElementById('tbCopy');
+  const ok=()=>{b.textContent='Copiado';setTimeout(()=>b.textContent='Copiar texto',1600)};
+  (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(ok).catch(()=>{const r=document.createRange();r.selectNodeContents(document.getElementById('tbPrep'));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Texto seleccionado'});
+});
+buildTask();
+
+const FIT=[['Necesidad','Movilidad recurrente o relevante en rutas que servimos.',1],['Volumen','La frecuencia justifica una solución corporativa.',0],['Problema','La alternativa actual tiene una fricción que resolvemos.',0],['Capacidad de avanzar','Hay un interlocutor que decide o lleva al decisor.',1],['Timing','Necesidad actual o ventana razonable de implementación.',0],['Interés extrapersonal','Quiere apoyar la ruta más allá del uso propio.',0]];
+const fitEl=document.getElementById('fit');
+fitEl.innerHTML=FIT.map(([t,d],i)=>`<label class="fitc" for="fit${i}"><input type="checkbox" id="fit${i}" ${i<3?'checked':''}><div><b>${t}</b><span>${d}</span></div></label>`).join('');
+function fitCalc(){
+  const on=FIT.map((f,i)=>document.getElementById('fit'+i).checked);
+  const n=on.filter(Boolean).length, key=on[0]&&on[3];
+  const v=document.getElementById('fitV');
+  if(key&&n>=4){v.className='verdict go';v.textContent=`${n}/6 · Hay fit: convertir el Lead y abrir la Oportunidad en Contactado.`}
+  else if(on[0]&&n>=2){v.className='verdict wait';v.textContent=`${n}/6 · Todavía no: sigue Calificando. ${!on[3]?'Falta un interlocutor que pueda avanzar. ':''}Crear Task con lo que falta validar.`}
+  else{v.className='verdict no';v.textContent=`${n}/6 · Sin necesidad clara: No califica, con motivo. No dejarlo activo.`}
+}
+fitEl.addEventListener('change',fitCalc);fitCalc();
+
+function dictate(){
+  const hace=$v('dcHace'), f=fmtDT($v('dcFecha')), etapa=$v('dcEtapa');
+  document.getElementById('dcText').textContent=`"Hablé con ${$v('dcQuien')}. Resultado: ${$v('dcRes')}. ${$v('dcResumen')}${$v('dcCtx')?' Además: '+$v('dcCtx'):''} Próximo paso: ${$v('dcQue')} — lo hace ${hace==='SDR'?'el SDR':'el BDR'}, ${f}. Etapa: ${etapa}."`;
+  const S=[
+    ['var(--con)','Cierra la Task de la llamada',`Resultado_de_Contacto__c = ${$v('dcRes')} · Resumen_de_Llamada__c con el resumen dictado · Status = Completed.`],
+    ...($v('dcCtx')?[['var(--lead)','Actualiza el Contexto Comercial',`Agrega a la Oportunidad: "${$v('dcCtx')}".`]]:[]),
+    ['var(--opp)','Actualiza la etapa',`StageName = ${etapa}.${etapa==='Perdida'?' Completar Motivo_de_p_rdida__c.':''}${etapa==='Ganada'?' Completar bloque contractual.':''}`],
+    ['var(--acc)',`Crea la próxima Task asignada al ${hace}`,`Subject: ${hace==='SDR'?'Preparar/enviar':'Llamar a'} · ${$v('dcQuien').split('·')[0].trim()} · Fecha_y_hora_programada__c = ${f} · Preparación / Contexto: ${$v('dcQue')}`]
+  ];
+  if(['Ganada','Perdida'].includes(etapa)) S.pop();
+  document.getElementById('dcSteps').innerHTML=S.map(([c,t,d],i)=>`<div class="st2" style="--c:${c}"><b>${i+1}</b><div><strong>${t}</strong>${d}</div></div>`).join('');
+  const r=$v('dcResumen'), bad=r.length<50||/^(hablamos|interesad|volver a llamar|le mandamos propuesta)/i.test(r);
+  const w=document.getElementById('dcWarn');
+  w.hidden=!(bad||!$v('dcFecha')&&!['Ganada','Perdida'].includes(etapa));
+  w.textContent=bad?'Ese resumen no alcanza: tiene que decir qué confirmó, qué falta y qué se acordó, para que otro lo entienda sin preguntar.':'Falta fecha y hora del próximo paso.';
+}
+document.getElementById('dcForm').addEventListener('input',dictate);
+document.getElementById('dcForm').addEventListener('submit',e=>e.preventDefault());
+dictate();
+
+const CASES=[
+ ['SDR abre, BDR conversa',['Lead','Convertir','Task → BDR'],'El Lead califica, se convierte y la Oportunidad queda del BDR. La próxima Task va al BDR con el contexto.'],
+ ['Lead pre-calificado directo al BDR',['Lead','Task → BDR'],'Alto potencial antes del primer contacto. El SDR completa el Lead, documenta la hipótesis y asigna la primera Task al BDR. Si califica, se convierte.'],
+ ['BDR necesita material',['Oportunidad (BDR)','Task → SDR'],'La Oportunidad sigue del BDR. La Task va al SDR y la Preparación dice exactamente qué producir o enviar.'],
+ ['SDR vuelve a contactar',['Oportunidad (BDR)','Task → SDR'],'La próxima Task se asigna al SDR. El dueño comercial no cambia.'],
+ ['Cambia el responsable real',['SDR / BDR del registro'],'Solo cuando cambia quién lleva la relación se cambia el campo. Nunca cambiar dueños para delegar una tarea.']
+];
+document.getElementById('cases').innerHTML=CASES.map(([t,f,d],i)=>`<div class="case"><span class="lk">Caso ${i+1}</span><h3 style="font-size:17px">${t}</h3><div class="flow">${f.map(x=>`<span>${x}</span>`).join('→')}</div><p>${d}</p></div>`).join('');
 
 const EX=[
  {t:'Referido',when:'Lunes 6/10 · SDR',h:'Nos pasan un nombre',
